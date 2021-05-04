@@ -1,3 +1,4 @@
+// 用于定义资源位，允许父组件动态修改资源位
 <template>
   <div class="common-card">
     <div class="title">{{ title }}</div>

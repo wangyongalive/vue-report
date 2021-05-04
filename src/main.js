@@ -6,6 +6,7 @@ import './plugins/element.js'
 import ECharts from 'echarts'
 
 Vue.config.productionTip = false
+// Vue 引用 ECharts
 Vue.prototype.$echart = ECharts
 
 new Vue({

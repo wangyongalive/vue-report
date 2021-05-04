@@ -1,8 +1,11 @@
 <template>
   <div class="top-view">
     <!-- 采用element的布局 -->
+    <!-- el-row gutter 属性控制间距 -->
+    <!-- el-col span 属性控制长度，总长度为 24 -->
     <el-row :gutter="20">
       <el-col :span="6">
+        <!-- shadow=hover 鼠标悬浮时显示阴影 -->
         <el-card shadow="hover" :body-style="{ padding: 20 }">
           <!-- 累计销售额 -->
           <total-sales />
