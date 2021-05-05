@@ -1,29 +1,29 @@
 <template>
   <div class="home">
     <!-- 中间通过-连接(vue规范) -->
-    <top-view/>
-    <sale-view/>
-    <bottom-view/>
-    <map-view/>
+    <top-view />
+    <sale-view />
+    <!-- <bottom-view />
+    <map-view /> -->
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import TopView from '../components/TopView'
-import SaleView from '../components/SaleView'
-import BottomView from '../components/BottomView'
-import MapView from '../components/MapView'
+import TopView from "../components/TopView";
+import SaleView from "../components/SaleView";
+// import BottomView from "../components/BottomView";
+// import MapView from "../components/MapView";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     TopView,
     SaleView,
-    BottomView,
-    MapView
-  }
-}
+    // BottomView,
+    // MapView,
+  },
+};
 </script>
 <style scoped>
 .home {
