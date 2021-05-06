@@ -3,8 +3,8 @@
     <!-- 中间通过-连接(vue规范) -->
     <top-view />
     <sale-view />
-    <!-- <bottom-view />
-    <map-view /> -->
+    <bottom-view />
+    <!-- <map-view />  -->
   </div>
 </template>
 
@@ -12,7 +12,7 @@
 // @ is an alias to /src
 import TopView from "../components/TopView";
 import SaleView from "../components/SaleView";
-// import BottomView from "../components/BottomView";
+import BottomView from "../components/BottomView";
 // import MapView from "../components/MapView";
 
 export default {
@@ -20,7 +20,7 @@ export default {
   components: {
     TopView,
     SaleView,
-    // BottomView,
+    BottomView,
     // MapView,
   },
 };
