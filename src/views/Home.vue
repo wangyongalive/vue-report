@@ -14,6 +14,7 @@ import TopView from "../components/TopView";
 import SaleView from "../components/SaleView";
 import BottomView from "../components/BottomView";
 import MapView from "../components/MapView";
+import { getWordCloud, getScreenData, getScreenMap } from "../api";
 
 export default {
   name: "Home",
@@ -21,8 +22,47 @@ export default {
     TopView,
     SaleView,
     BottomView,
-    MapView
-  }
+    MapView,
+  },
+  data() {
+    return {
+      reportData: null,
+      wordCloud: null,
+      mapData: null,
+    };
+  },
+  provide() {
+    return {
+      // 函数
+      getReportData: this.getReportData,
+      getWordCloudData: this.getWordCloudData,
+      getMapData: this.getMapData,
+    };
+  },
+  methods: {
+    getReportData() {
+      // console.log('getReportData');
+      return this.reportData;
+    },
+    getWordCloudData() {
+      return this.wordCloud;
+    },
+    getMapData() {
+      return this.mapData;
+    },
+  },
+  mounted() {
+    getScreenData().then((data) => {
+      this.reportData = data;
+    });
+    getWordCloud().then((data) => {
+      this.wordCloud = data;
+    });
+
+    getScreenMap().then((data) => {
+      this.mapData = data;
+    });
+  },
 };
 </script>
 <style scoped>

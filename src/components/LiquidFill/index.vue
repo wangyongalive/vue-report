@@ -9,7 +9,7 @@
       : value > 0.5 && value <= 0.8 ? 'rgba(204,178,26,.7)'
         : value > 0.8 ? 'rgba(241,47,28,.7)' : '#c7c7cb'
   }
-
+ 
   export default {
     // mixins: [commonDataMixin],
     // watch: {
