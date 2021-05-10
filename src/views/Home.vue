@@ -4,7 +4,7 @@
     <top-view />
     <sale-view />
     <bottom-view />
-    <!-- <map-view />  -->
+    <map-view />
   </div>
 </template>
 
@@ -13,7 +13,7 @@
 import TopView from "../components/TopView";
 import SaleView from "../components/SaleView";
 import BottomView from "../components/BottomView";
-// import MapView from "../components/MapView";
+import MapView from "../components/MapView";
 
 export default {
   name: "Home",
@@ -21,14 +21,14 @@ export default {
     TopView,
     SaleView,
     BottomView,
-    // MapView,
-  },
+    MapView
+  }
 };
 </script>
 <style scoped>
 .home {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */ /*让home根据内容增长*/
   padding: 20px;
   background-color: #eee;
   box-sizing: border-box;
