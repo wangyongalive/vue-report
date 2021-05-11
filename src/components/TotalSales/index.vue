@@ -1,16 +1,16 @@
 <template>
-  <commond-card title="累计销售额" :value="'$' + salesToday">
+  <commond-card title="累计销售额" :value="salesToday">
     <!-- 默认插槽 -->
     <template>
       <div class="compare-wrappper">
         <div class="compare">
           <span>日同比</span>
-          <span class="emphasis">{{salesGrowthLastDay}}</span>
+          <span class="emphasis">{{salesGrowthLastDay}}%</span>
           <div class="increase" />
         </div>
         <div class="compare">
           <span>月同比</span>
-          <span class="emphasis">{{salesGrowthLastMonth}}</span>
+          <span class="emphasis">{{salesGrowthLastMonth}}%</span>
           <div class="decrease" />
         </div>
       </div>
@@ -18,7 +18,7 @@
     <!-- 具名插槽 -->
     <template v-slot:footer>
       <span>昨日销售额 </span>
-      <span class="emphasis">$ {{salesLastDay}}</span>
+      <span class="emphasis">{{salesLastDay}}</span>
     </template>
   </commond-card>
 </template>
@@ -29,6 +29,7 @@ import commonCardMixin from "../../mixins/commonCardMixin";
 import commonDataMixin from "../../mixins/commonDataMixin";
 export default {
   mixins: [commonCardMixin, commonDataMixin],
+  // 都放到了minxins中
   // inject: ["getReportData"],
   // computed: {
   //   //

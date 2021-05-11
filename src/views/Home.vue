@@ -41,7 +41,6 @@ export default {
   },
   methods: {
     getReportData() {
-      // console.log('getReportData');
       return this.reportData;
     },
     getWordCloudData() {
