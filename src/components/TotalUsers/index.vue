@@ -1,5 +1,5 @@
 <template>
-  <commond-card title="累计用户数" value="1,087,503">
+  <commond-card title="累计用户数" :value="userToday">
     <template>
       <!-- <div
         id="total-users-chart"
@@ -11,10 +11,10 @@
     <template v-slot:footer>
       <div class="total-users-footer">
         <span>日同比 </span>
-        <span class="emphasis">8.73%</span>
+        <span class="emphasis">{{ salesGrowthLastDay }}</span>
         <div class="increase" />
         <span class="month">月同比 </span>
-        <span class="emphasis">35.73%</span>
+        <span class="emphasis">{{ salesGrowthLastMonth }}</span>
         <div class="decrease" />
       </div>
     </template>
@@ -23,8 +23,9 @@
 
 <script>
 import commonCardMixin from "../../mixins/commonCardMixin";
+import commonDataMixin from "../../mixins/commonDataMixin";
 export default {
-  mixins: [commonCardMixin],
+  mixins: [commonCardMixin, commonDataMixin],
   methods: {
     getOption() {
       return {
@@ -47,8 +48,9 @@ export default {
         series: [
           // 柱状图聚合
           {
+            name: "上月平台用户数",
             type: "bar",
-            data: [100],
+            data: [this.userLastMonth],
             barWidth: 10,
             stack: "总量", // stack 将数据合并
             itemStyle: {
@@ -56,8 +58,9 @@ export default {
             },
           },
           {
+            name: "今日平台用户数",
             type: "bar",
-            data: [250],
+            data: [this.userTodayNumber],
             barWidth: 10,
             stack: "总量",
             itemStyle: {
@@ -68,7 +71,7 @@ export default {
             // 自定义绘图
             type: "custom",
             stack: "总量",
-            data: [100],
+              data: [this.userLastMonth],
             renderItem: (params, api) => {
               const value = api.value(0); // 获取第一个点
               const endPoint = api.coord([value, 0]);
