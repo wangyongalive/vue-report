@@ -3,11 +3,13 @@ function format(v) {
   // return (+v).toLocaleString();
   // 正则表达式
   // 正向前瞻
-  const reg = /\d{1,3}(?=(\d{3})+$)/g;
-  `${v}`.replace(reg, function(world) {
-    //这里的world就是上面的$&
-    console.log(world);
-  });
+  // +
+  // $
+  // const reg = /\d{1,3}(?=(\d{3})+$)/g;
+  // `${v}`.replace(reg, function(world) {
+  //   //这里的world就是上面的$&
+  //   console.log(world);
+  // });
   // $&表示与regx相匹配的字符串
   return `${v}`.replace(reg, "$&,");
 }
