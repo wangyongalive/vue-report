@@ -18,7 +18,7 @@
           columns: ['title', 'percent'],
           rows: [{
             title: '用户月同比增长',
-            percent: this.userGrowthLastMonth / 100
+            percent: this.userGrowthLastMonth / 1000
           }]
         }
         this.chartSettings = {
@@ -27,6 +27,7 @@
               radius: '80%',
               label: {
                 formatter: (v) => {
+                  console.log(v);
                   return `${(v.data.value * 100).toFixed(2)}%`
                 },
                 textStyle: {
