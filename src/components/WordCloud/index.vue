@@ -7,7 +7,7 @@
   export default {
     mixins: [commonDataMixin],
     watch: {
-      wordCloud() {
+      wordCloud() { 
         const data = []
         this.wordCloud.forEach(item => {
           data.push({
@@ -21,7 +21,7 @@
         }
       }
     },
-    data() {
+    data() { 
       return {
         chartData: {},
         chartSettings: {
