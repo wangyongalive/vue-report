@@ -33,6 +33,18 @@ function wrapperArray(o, k) {
   return o && o[k] ? o[k] : [];
 }
 
+function wrapperObject(o, k) {
+  if (o && k.indexOf(".") >= 0) {
+    const keys = k.split(".");
+    keys.forEach(key => {
+      o = o[key];
+    });
+    return o;
+  } else {
+    return o && o[k] ? o[k] : {};
+  }
+}
+
 export default {
   inject: ["getReportData", "getWordCloudData", "getMapData"],
   computed: {
@@ -81,6 +93,9 @@ export default {
     userLastMonth() {
       return wrapperOriginalNumber(this.reportData, "userLastMonth");
     },
+    userGrowthLastMonth() {
+      return wrapperNumber(this.reportData, "userGrowthLastMonth");
+    },
     userGrowthLastDay() {
       return wrapperNumber(this.reportData, "userGrowthLastDay");
     },
@@ -102,13 +117,22 @@ export default {
     userRank() {
       return wrapperArray(this.reportData, "userRank");
     },
-    wordCloud(){
-      return this.getWordCloudData()
+    wordCloud() {
+      return this.getWordCloudData();
+    },
+    category1() {
+      return wrapperObject(this.reportData, "category.data1");
+    },
+    category2() {
+      return wrapperObject(this.reportData, "category.data2");
+    },
+    mapData() {
+      return this.getMapData();
     }
   },
   filters: {
     format(v) {
-      return format(v)
+      return format(v);
     }
-  },
+  }
 };

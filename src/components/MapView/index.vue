@@ -29,47 +29,48 @@
 </template>
 
 <script>
-import BMapScatter from "../BMapScatter";
-import LiquidFill from "../LiquidFill";
-import WordCloud from "../WordCloud";
+  import BMapScatter from '../BMapScatter'
+  import LiquidFill from '../LiquidFill'
+  import WordCloud from '../WordCloud'
 
-export default {
-  components: {
-    BMapScatter,
-    WordCloud,
-    LiquidFill
+  export default {
+    components: {
+      BMapScatter,
+      LiquidFill,
+      WordCloud
+    }
   }
-};
 </script>
 
 <style lang="scss" scoped>
-.map-view {
-  display: flex;
-  margin-top: 20px;
-  .left {
-    flex: 0 0 80%;
-    width: 80%;
-    height: 600px;
-    background-color: aqua;
-  }
-  .right {
-    flex: 1; /*占满剩下的空间*/
+  .map-view {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: stretch; // stretch：默认值
-    margin-left: 20px;
-    background-color: red;
-    .title {
+    margin-top: 20px;
+    .left {
+      flex: 0 0 80%;
+      width: 80%;
+      height: 600px;
+    }
+    .right {
+      flex: 1;
       display: flex;
-      align-items: center;
-      height: 60px;
-      box-sizing: border-box;
-      border-bottom: 1px solid #eee;
-      font-size: 14px;
-      font-weight: 500;
-      padding: 0 0 0 20px;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-left: 20px;
+      .title {
+        display: flex;
+        align-items: center;
+        height: 60px;
+        box-sizing: border-box;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 0 0 0 20px;
+      }
+      .chart-wrapper {
+        width: 100%;
+        height: 190px;
+      }
     }
   }
-}
 </style>

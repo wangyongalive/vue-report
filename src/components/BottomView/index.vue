@@ -45,7 +45,11 @@
           <div class="title-wrapper">
             <div class="title">分类销售排行</div>
             <div class="radio-wrapper">
-              <el-radio-group v-model="radioSelect" size="small">
+              <el-radio-group
+                v-model="radioSelect"
+                size="small"
+                @change="onCategoryChange"
+              >
                 <el-radio-button label="品类"></el-radio-button>
                 <el-radio-button label="商品"></el-radio-button>
               </el-radio-group>
@@ -64,6 +68,15 @@
 
 <script>
 import commonDataMixin from "../../mixins/commonDataMixin";
+
+const colors = [
+  "#8d7fec",
+  "#5085f2",
+  "#f8726b",
+  "#e7e702",
+  "#78f283",
+  "#4bc1fc",
+];
 export default {
   mixins: [commonDataMixin],
   data() {
@@ -80,44 +93,46 @@ export default {
     };
   },
   methods: {
+    onCategoryChange(type) {
+      this.radioSelect = type;
+      this.renderPieChart();
+    },
     onPageChange(page) {
       this.renderTable(page);
     },
     renderPieChart() {
-      const mockData = [
-        {
-          legendname: "粉面粥店",
-          name: "粉面粥店" /*name和legend对应*/,
-          value: 67,
-          percent: "15.40",
+      if (!this.category1.data1 || !this.category2.data1) {
+        return;
+      }
+      let data;
+      let axis;
+      let total = 0;
+      if (this.radioSelect === "品类") {
+        data = this.category1.data1.slice(0, 6);
+        axis = this.category1.axisX.slice(0, 6);
+        total = data.reduce((s, i) => s + i, 0);
+      } else {
+        data = this.category2.data1.slice(0, 6);
+        axis = this.category2.axisX.slice(0, 6);
+        total = data.reduce((s, i) => s + i, 0);
+      }
+      const chartData = [];
+      data.forEach((item, index) => {
+        const percent = `${((item / total) * 100).toFixed(2)}%`;
+        chartData.push({
+          legendname: axis[index],
+          value: item,
+          percent,
           itemStyle: {
-            color: "#8d7fec",
+            color: colors[index],
           },
-        },
-        {
-          legendname: "简餐便当",
-          name: "简餐便当",
-          value: 97,
-          percent: "22.40",
-          itemStyle: {
-            color: "#508502",
-          },
-        },
-        {
-          legendname: "汉堡披萨",
-          name: "汉堡披萨",
-          value: 62,
-          percent: "21.40",
-          itemStyle: {
-            color: "#e7e702",
-          },
-        },
-      ];
+          name: `${axis[index]} | ${percent}`,
+        });
+      });
       this.categoryOptions = {
         title: [
-          // 两个标题
           {
-            text: "品类分布",
+            text: `${this.radioSelect}分布`,
             textStyle: {
               fontSize: 14,
               color: "#666",
@@ -127,7 +142,7 @@ export default {
           },
           {
             text: "累计订单量",
-            subtext: "320",
+            subtext: total,
             x: "34.5%",
             y: "42.5%",
             textStyle: {
@@ -145,27 +160,26 @@ export default {
           {
             name: "品类分布",
             type: "pie",
-            data: mockData,
+            data: chartData,
             label: {
-              // 饼图图形上的文本标签
-              // normal: {
-              show: true,
-              position: "outside",
-              formatter: function (params) {
-                return params.data.legendname;
+              normal: {
+                show: true,
+                position: "outter",
+                formatter: function (params) {
+                  return params.data.legendname;
+                },
               },
-              // },
             },
             center: ["35%", "50%"],
             radius: ["45%", "60%"],
             labelLine: {
-              // normal: {
-              length: 5,
-              length2: 3,
-              smooth: true,
-              // },
+              normal: {
+                length: 5,
+                length2: 3,
+                smooth: true,
+              },
             },
-            clockwise: false, // 逆时针
+            clockwise: false,
             itemStyle: {
               borderWidth: 4,
               borderColor: "#fff",
@@ -271,6 +285,9 @@ export default {
       this.userCount = totalData.reduce((s, i) => i.users + s, 0);
       this.searchCount = totalData.reduce((s, i) => i.count + s, 0);
       this.renderLineChart();
+    },
+    category1() {
+      this.renderPieChart();
     },
   },
 };

@@ -16,7 +16,7 @@ export function getScreenData() {
 
 export function getScreenMap() {
   return request({
-    url: "/screen/map",
+    url: "/screen/map/scatter",
     method: "get"
   });
 }
