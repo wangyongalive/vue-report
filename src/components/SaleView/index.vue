@@ -75,12 +75,13 @@ export default {
   mixins: [commonDataMixin],
   watch: {
     orderFullYear(v, o) {
-      console.log(v, o); 
+      console.log(v, o);
       this.render(this.orderFullYear, this.orderFullYearAxis, "年度销售额");
     },
   },
   computed: {
     rankData() {
+      // console.log("rankData", this.activeIndex, this.orderRank, this.userRank);
       return this.activeIndex === "1" ? this.orderRank : this.userRank;
     },
   },
