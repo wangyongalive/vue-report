@@ -136,6 +136,8 @@ export default {
       }
     },
     render(data, axis, title) {
+      // console.log(data);
+      // console.log(axis);
       this.chartOption = {
         title: {
           text: title,

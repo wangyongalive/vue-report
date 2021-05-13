@@ -10,39 +10,26 @@
             <div class="chart-inner">
               <div class="chart">
                 <div class="chart-title">搜索用户数</div>
-                <div class="chart-data">93,634</div>
+                <div class="chart-data">{{ userCount | format }}</div>
                 <v-chart :options="searchUserOption"></v-chart>
               </div>
               <div class="chart">
                 <div class="chart-title">搜索量</div>
-                <div class="chart-data">93,634</div>
+                <div class="chart-data">{{ searchCount | format }}</div>
                 <v-chart :options="searchNumberOption"></v-chart>
               </div>
             </div>
             <div class="table-wrapper">
               <el-table :data="tableData">
-                <el-table-column
-                  prop="rank"
-                  label="排名"
-                  width="180"
-                ></el-table-column>
-                <el-table-column
-                  prop="keyword"
-                  label="关键词"
-                  width="180"
-                ></el-table-column>
-                <el-table-column
-                  prop="count"
-                  label="总搜索量"
-                ></el-table-column>
-                <el-table-column
-                  prop="users"
-                  label="搜索用户数"
-                ></el-table-column>
+                <el-table-column prop="rank" label="排名" />
+                <el-table-column prop="keyword" label="关键词" />
+                <el-table-column prop="count" label="总搜索量" />
+                <el-table-column prop="users" label="搜索用户数" />
+                <el-table-column prop="range" label="搜索占比" />
               </el-table>
               <el-pagination
                 layout="prev, pager, next"
-                :total="100"
+                :total="total"
                 :page-size="4"
                 background
                 @current-change="onPageChange"
@@ -76,82 +63,25 @@
 </template>
 
 <script>
+import commonDataMixin from "../../mixins/commonDataMixin";
 export default {
+  mixins: [commonDataMixin],
   data() {
     return {
-      searchUserOption: {
-        xAxis: {
-          type: "category",
-          boundaryGap: false,
-        },
-        yAxis: {
-          show: false,
-        },
-        series: [
-          {
-            type: "line",
-            data: [100, 123, 234, 221, 150],
-            areaStyle: {
-              color: "rgba(95,187,255,.5)",
-            },
-            lineStyle: {
-              color: "rgb(95,187,255)",
-            },
-            itemStyle: {
-              opacity: 0,
-            },
-            smooth: true,
-          },
-        ],
-        grid: {
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
-        },
-      },
+      searchUserOption: {},
       searchNumberOption: {},
       categoryOptions: {},
-      tableData: [
-        {
-          id: 1,
-          rank: 1,
-          keyword: "北京",
-          count: 100,
-          users: 90,
-          range: "90%",
-        },
-        {
-          id: 2,
-          rank: 1,
-          keyword: "北京",
-          count: 100,
-          users: 90,
-          range: "90%",
-        },
-        {
-          id: 3,
-          rank: 1,
-          keyword: "北京",
-          count: 100,
-          users: 90,
-          range: "90%",
-        },
-        {
-          id: 4,
-          rank: 1,
-          keyword: "北京",
-          count: 100,
-          users: 90,
-          range: "90%",
-        },
-      ],
+      tableData: [],
+      total: 0,
+      totalData: [],
+      userCount: 0,
+      searchCount: 0,
       radioSelect: "品类",
     };
   },
   methods: {
     onPageChange(page) {
-      console.log(page);
+      this.renderTable(page);
     },
     renderPieChart() {
       const mockData = [
@@ -184,7 +114,8 @@ export default {
         },
       ];
       this.categoryOptions = {
-        title: [  // 两个标题
+        title: [
+          // 两个标题
           {
             text: "品类分布",
             textStyle: {
@@ -271,9 +202,76 @@ export default {
         },
       };
     },
+    renderTable(page) {
+      this.tableData = this.totalData.slice((page - 1) * 4, 4 * page);
+    },
+    renderLineChart() {
+      const createOption = (key) => {
+        const data = [];
+        const axis = [];
+        this.wordCloud.forEach((item) => data.push(item[key]));
+        this.wordCloud.forEach((item) => axis.push(item.word));
+        return {
+          xAxis: {
+            type: "category",
+            boundaryGap: false,
+            data: axis,
+          },
+          yAxis: {
+            show: false,
+          },
+          tooltip: {},
+          series: [
+            {
+              type: "line",
+              data,
+              areaStyle: {
+                color: "rgba(95,187,255,.5)",
+              },
+              lineStyle: {
+                color: "rgb(95,187,255)",
+              },
+              itemStyle: {
+                opacity: 0, // 隐藏项目
+              },
+              smooth: true,
+            },
+          ],
+          grid: {
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+          },
+        };
+      };
+      this.searchUserOption = createOption("user");
+      this.searchNumberOption = createOption("count");
+    },
   },
   mounted() {
     this.renderPieChart();
+  },
+  watch: {
+    wordCloud() {
+      const totalData = [];
+      this.wordCloud.forEach((item, index) => {
+        totalData.push({
+          id: index + 1,
+          rank: index + 1,
+          keyword: item.word,
+          count: item.count,
+          users: item.user,
+          range: `${((item.user / item.count) * 100).toFixed(2)}%`,
+        });
+      });
+      this.totalData = totalData;
+      this.total = this.totalData.length;
+      this.renderTable(1);
+      this.userCount = totalData.reduce((s, i) => i.users + s, 0);
+      this.searchCount = totalData.reduce((s, i) => i.count + s, 0);
+      this.renderLineChart();
+    },
   },
 };
 </script>

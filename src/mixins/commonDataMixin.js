@@ -101,6 +101,14 @@ export default {
     },
     userRank() {
       return wrapperArray(this.reportData, "userRank");
+    },
+    wordCloud(){
+      return this.getWordCloudData()
     }
-  }
+  },
+  filters: {
+    format(v) {
+      return format(v)
+    }
+  },
 };
